@@ -13,11 +13,6 @@ interface SceneProps {
   selectedAnimal?: 'giraffe' | 'antelope' | 'cheetah' | null;
   onSelectAnimal?: (animal: 'giraffe' | 'antelope' | 'cheetah' | null) => void;
   onLoaded?: () => void;
-  animalScale?: number;
-  animalRotation?: number;
-  animalOffsetX?: number;
-  animalOffsetY?: number;
-  animalOffsetZ?: number;
 }
 
 function FloatingObject({ shape, color, onLoaded }: SceneProps) {
@@ -180,47 +175,35 @@ function ZooTerrain({ color, customMaterial, onSelectAnimal, onLoaded }: { color
 
 export const ANIMAL_PROFILE_CONFIGS = {
   giraffe: {
-    scale: 1.55,
+    scale: 1.25,
     rotation: 2.71,
-    offsetX: -0.95,
-    offsetY: 1.40,
-    offsetZ: 0.70
+    offsetX: 1.05,
+    offsetY: 1.15,
+    offsetZ: -1.00
   },
   antelope: {
     scale: 0.60,
-    rotation: 0.01,
-    offsetX: 0.05,
-    offsetY: -1.15,
-    offsetZ: 3.00
+    rotation: 0.21,
+    offsetX: 0.85,
+    offsetY: -0.90,
+    offsetZ: 4.00
   },
   cheetah: {
-    scale: 0.85,
-    rotation: -1.33,
-    offsetX: -3.00,
-    offsetY: 1.10,
-    offsetZ: 0.00
+    scale: 0.90,
+    rotation: -1.69,
+    offsetX: -4.00,
+    offsetY: 1.65,
+    offsetZ: 0.10
   }
 };
 
-function AnimalProfile({ 
-  type, 
-  color, 
-  customMaterial,
-  scale,
-  rotation,
-  offsetX,
-  offsetY,
-  offsetZ
-}: { 
-  type: 'giraffe' | 'antelope' | 'cheetah'; 
-  color: string; 
-  customMaterial: boolean;
-  scale: number;
-  rotation: number;
-  offsetX: number;
-  offsetY: number;
-  offsetZ: number;
-}) {
+function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'antelope' | 'cheetah'; color: string; customMaterial: boolean }) {
+  const config = ANIMAL_PROFILE_CONFIGS[type];
+  const scale = config.scale;
+  const rotation = config.rotation;
+  const offsetX = config.offsetX;
+  const offsetY = config.offsetY;
+  const offsetZ = config.offsetZ;
   let modelPath = '/models/antelope.glb';
   if (type === 'cheetah') modelPath = '/models/cheetah.glb';
   if (type === 'giraffe') modelPath = '/models/jerapah.glb';
@@ -362,12 +345,7 @@ export default function ThreeScene({
   customMaterial = false, 
   selectedAnimal = null, 
   onSelectAnimal = () => {}, 
-  onLoaded = () => {},
-  animalScale,
-  animalRotation,
-  animalOffsetX,
-  animalOffsetY,
-  animalOffsetZ
+  onLoaded = () => {}
 }: SceneProps) {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -399,11 +377,6 @@ export default function ThreeScene({
               type={selectedAnimal} 
               color={color} 
               customMaterial={customMaterial} 
-              scale={animalScale !== undefined ? animalScale : ANIMAL_PROFILE_CONFIGS[selectedAnimal].scale}
-              rotation={animalRotation !== undefined ? animalRotation : ANIMAL_PROFILE_CONFIGS[selectedAnimal].rotation}
-              offsetX={animalOffsetX !== undefined ? animalOffsetX : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetX}
-              offsetY={animalOffsetY !== undefined ? animalOffsetY : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetY}
-              offsetZ={animalOffsetZ !== undefined ? animalOffsetZ : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetZ}
             />
           ) : shape === 'zoo_terrain' ? (
             <ZooTerrain 
