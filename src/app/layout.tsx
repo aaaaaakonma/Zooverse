@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AETHER // Next.js & Three.js Interactive 3D Sandbox",
-  description: "A premium interactive 3D scene built with Next.js, React Three Fiber, and Three.js, featuring camera controls, custom shaders, and ground differentiation.",
+  title: "AETHER // Sandbox 3D Interaktif Next.js & Three.js",
+  description: "Sebuah pemandangan 3D interaktif premium yang dibangun dengan Next.js, React Three Fiber, dan Three.js, menampilkan kontrol kamera, shader kustom, dan diferensiasi permukaan tanah.",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="id" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

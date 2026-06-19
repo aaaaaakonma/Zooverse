@@ -18,64 +18,64 @@ const ThreeScene = dynamic(() => import('@/components/ThreeScene'), {
       gap: '12px'
     }}>
       <div className="statusIndicator pulse" style={{ width: '12px', height: '12px' }}></div>
-      <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>BOOTING GRAPHICS ENGINE...</span>
+      <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>MEMULAI MESIN GRAFIS...</span>
     </div>
   ),
 });
 
 const ANIMAL_DATA = {
   giraffe: {
-    name: 'Giraffe (Jerapah)',
+    name: 'Jerapah',
     scientificName: 'Giraffa camelopardalis',
-    status: 'Vulnerable',
+    status: 'Rentan',
     statusColor: '245, 158, 11',
-    description: 'The tallest living terrestrial animal and the largest ruminant. It is easily distinguished by its extremely long neck and legs, and its distinctive coat patterns.',
+    description: 'Hewan darat tertinggi yang masih hidup dan ruminansia terbesar. Jerapah mudah dikenali dari leher dan kakinya yang sangat panjang, serta pola mantelnya yang khas.',
     stats: {
-      Height: 'Up to 5.7 m',
-      Speed: '60 km/h',
-      Diet: 'Herbivore',
-      Weight: '1,200 kg'
+      'Tinggi': 'Hingga 5,7 m',
+      'Kecepatan': '60 km/jam',
+      'Makanan': 'Herbivora',
+      'Berat': '1.200 kg'
     },
     funFacts: [
-      "Giraffes only need 5 to 30 minutes of sleep per 24 hours, often taken in quick naps.",
-      "A giraffe's heart weighs about 11 kg (25 lb) and pumps blood at double normal blood pressure to reach their brain.",
-      "Just like human fingerprints, no two giraffes have the exact same spot pattern."
+      "Jerapah hanya butuh tidur 5 hingga 30 menit per 24 jam, sering kali dilakukan dalam bentuk tidur siang singkat.",
+      "Jantung jerapah memiliki berat sekitar 11 kg (25 lb) and memompa darah dengan tekanan dua kali lipat tekanan darah normal agar bisa mencapai otak mereka.",
+      "Sama seperti sidik jari manusia, tidak ada dua jerapah yang memiliki pola bintik yang persis sama."
     ]
   },
   antelope: {
-    name: 'Antelope',
+    name: 'Antelop',
     scientificName: 'Antilocapra americana',
-    status: 'Least Concern',
+    status: 'Risiko Rendah',
     statusColor: '16, 185, 129',
-    description: 'Elegant and agile grazers native to savannahs and grasslands. Known for their extreme speed and endurance to evade predators.',
+    description: 'Hewan pemakan rumput yang anggun dan lincah yang berasal dari sabana dan padang rumput. Terkenal dengan kecepatan ekstrim dan ketahanan mereka untuk menghindari predator.',
     stats: {
-      Height: '0.9 m',
-      Speed: '88 km/h',
-      Diet: 'Herbivore',
-      Weight: '60 kg'
+      'Tinggi': '0,9 m',
+      'Kecepatan': '88 km/jam',
+      'Makanan': 'Herbivora',
+      'Berat': '60 kg'
     },
     funFacts: [
-      "Antelopes have wide-set eyes that let them see almost 360 degrees, helping them detect predators.",
-      "They can make vertical leaps of up to 3 meters (10 feet) to startle and outmaneuver predators.",
-      "Their horns are made of bone covered in keratin (like human fingernails) and never stop growing."
+      "Antelop memiliki mata yang lebar yang memungkinkan mereka melihat hampir 360 derajat, membantu mereka mendeteksi predator.",
+      "Mereka dapat melakukan lompatan vertikal hingga 3 meter (10 kaki) untuk mengejutkan dan mengelabui predator.",
+      "Tanduk mereka terbuat dari tulang yang dilapisi keratin (seperti kuku manusia) dan tidak pernah berhenti tumbuh."
     ]
   },
   cheetah: {
     name: 'Cheetah',
     scientificName: 'Acinonyx jubatus',
-    status: 'Vulnerable',
+    status: 'Rentan',
     statusColor: '245, 158, 11',
-    description: 'The fastest land mammal on Earth, designed for short, explosive bursts of speed. Characterized by its slender body, deep chest, spotted coat, and tear stripes.',
+    description: 'Mamalia darat tercepat di Bumi, dirancang untuk akselerasi kecepatan yang singkat dan eksplosif. Ditandai dengan tubuhnya yang langsing, dada yang dalam, mantel berbintik, dan garis air mata.',
     stats: {
-      Height: '0.8 m',
-      Speed: '120 km/h',
-      Diet: 'Carnivore',
-      Weight: '54 kg'
+      'Tinggi': '0,8 m',
+      'Kecepatan': '120 km/jam',
+      'Makanan': 'Karnivora',
+      'Berat': '54 kg'
     },
     funFacts: [
-      "Cheetahs can accelerate from 0 to 97 km/h (60 mph) in just 3 seconds, faster than many sports cars.",
-      "Unlike other big cats, cheetahs cannot roar; instead, they purr like house cats when content.",
-      "Their black 'tear tracks' run from their eyes to their mouth, absorbing glare from the hot sun."
+      "Cheetah dapat melaju dari 0 hingga 97 km/jam (60 mph) hanya dalam waktu 3 detik, lebih cepat daripada kebanyakan mobil sport.",
+      "Berbeda dengan kucing besar lainnya, cheetah tidak bisa mengaum; sebaliknya, mereka mendengkur seperti kucing rumahan saat merasa senang.",
+      "Garis hitam 'air mata' mereka membentang dari mata ke mulut, menyerap silau dari terik matahari."
     ]
   }
 };
@@ -107,8 +107,8 @@ export default function Home() {
 
   return (
     <div className="appContainer">
-      {/* 3D WebGL Canvas Layer */}
-      <main className="canvasContainer" aria-label="3D WebGL Scene">
+      {/* Lapisan Canvas 3D WebGL */}
+      <main className="canvasContainer" aria-label="Pemandangan 3D WebGL">
         <ThreeScene 
           shape={shape} 
           color={color} 
@@ -130,7 +130,7 @@ export default function Home() {
                 <div className="splashProgressBarContainer">
                   <div className="splashProgressBar"></div>
                 </div>
-                <span className="splashLoadingText">Loading Wildlife Sanctuary...</span>
+                <span className="splashLoadingText">Memuat Suaka Margasatwa...</span>
               </div>
             ) : (
               <button 
@@ -140,7 +140,7 @@ export default function Home() {
                   setTimeout(() => setShowSplash(false), 800);
                 }}
               >
-                Start Experience
+                Mulai Pengalaman
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}>
                   <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
@@ -163,13 +163,13 @@ export default function Home() {
         <div className={`dynamicIsland ${selectedAnimal ? 'profileMode' : 'exploreMode'}`}>
           {!selectedAnimal ? (
             <div className="islandContent explore">
-              <span className="islandLabel">Quick Pick:</span>
+              <span className="islandLabel">Pilih Cepat:</span>
               <button className="islandBtn" onClick={() => setSelectedAnimal('giraffe')}>
                 Jerapah
               </button>
               <span className="islandDivider">|</span>
               <button className="islandBtn" onClick={() => setSelectedAnimal('antelope')}>
-                Antelope
+                Antelop
               </button>
               <span className="islandDivider">|</span>
               <button className="islandBtn" onClick={() => setSelectedAnimal('cheetah')}>
@@ -178,20 +178,20 @@ export default function Home() {
             </div>
           ) : (
             <div className="islandContent profile">
-              <button className="islandNavBtn" onClick={handlePrev} aria-label="Previous animal">
+              <button className="islandNavBtn" onClick={handlePrev} aria-label="Hewan sebelumnya">
                 ◀
               </button>
               <div className="islandActiveAnimal">
                 {selectedAnimal === 'giraffe' && 'Jerapah'}
-                {selectedAnimal === 'antelope' && 'Antelope'}
+                {selectedAnimal === 'antelope' && 'Antelop'}
                 {selectedAnimal === 'cheetah' && 'Cheetah'}
               </div>
-              <button className="islandNavBtn" onClick={handleNext} aria-label="Next animal">
+              <button className="islandNavBtn" onClick={handleNext} aria-label="Hewan berikutnya">
                 ▶
               </button>
               <span className="islandDivider">|</span>
-              <button className="islandHomeBtn" onClick={() => setSelectedAnimal(null)} aria-label="Back to Terrain">
-                Map
+              <button className="islandHomeBtn" onClick={() => setSelectedAnimal(null)} aria-label="Kembali ke Peta">
+                Peta
               </button>
             </div>
           )}
@@ -199,7 +199,7 @@ export default function Home() {
 
         {selectedAnimal && (
           <div className="glassPanel infoCard animateSlideIn" id="animal-info-card">
-            <button className="closeBtn" onClick={() => setSelectedAnimal(null)} aria-label="Close profile">
+            <button className="closeBtn" onClick={() => setSelectedAnimal(null)} aria-label="Tutup profil">
               ✕
             </button>
             <span className="scientificName">{ANIMAL_DATA[selectedAnimal].scientificName}</span>
@@ -220,7 +220,7 @@ export default function Home() {
             </div>
 
             <div className="funFactsSection">
-              <h4 className="funFactsTitle">Fun Facts</h4>
+              <h4 className="funFactsTitle">Fakta Menarik</h4>
               <ul className="funFactsList">
                 {ANIMAL_DATA[selectedAnimal].funFacts.map((fact, index) => (
                   <li key={index} className="funFactItem">{fact}</li>
@@ -230,11 +230,11 @@ export default function Home() {
           </div>
         )}
 
-        {/* Navigation & Camera Control tips */}
+        {/* Navigasi & Tips Kontrol Kamera */}
         <div className="glassPanel cameraControls" id="navigation-tips">
-          <span>Left-Click + Drag: <strong>Rotate Camera</strong></span>
-          <span>Right-Click + Drag: <strong>Pan</strong></span>
-          <span>Scroll: <strong>Zoom</strong></span>
+          <span>Klik Kiri + Seret: <strong>Putar Kamera</strong></span>
+          <span>Klik Kanan + Seret: <strong>Geser</strong></span>
+          <span>Gulir: <strong>Perbesar/Perkecil</strong></span>
         </div>
       </div>
     </div>
