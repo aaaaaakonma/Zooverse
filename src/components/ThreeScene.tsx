@@ -13,6 +13,11 @@ interface SceneProps {
   selectedAnimal?: 'giraffe' | 'antelope' | 'cheetah' | null;
   onSelectAnimal?: (animal: 'giraffe' | 'antelope' | 'cheetah' | null) => void;
   onLoaded?: () => void;
+  animalScale?: number;
+  animalRotation?: number;
+  animalOffsetX?: number;
+  animalOffsetY?: number;
+  animalOffsetZ?: number;
 }
 
 function FloatingObject({ shape, color, onLoaded }: SceneProps) {
@@ -173,31 +178,49 @@ function ZooTerrain({ color, customMaterial, onSelectAnimal, onLoaded }: { color
   );
 }
 
-const ANIMAL_PROFILE_CONFIGS = {
+export const ANIMAL_PROFILE_CONFIGS = {
   giraffe: {
-    scale: [1.16, 1.16, 1.16] as [number, number, number],
-    y: 3.18,
-    x: 1.53,
-    z: 1.64,
-    rotation: 3.05
+    scale: 1.55,
+    rotation: 2.71,
+    offsetX: -0.95,
+    offsetY: 1.40,
+    offsetZ: 0.70
   },
   antelope: {
-    scale: [0.35, 0.35, 0.35] as [number, number, number],
-    y: 1.30,
-    x: 1.74,
-    z: 3.00,
-    rotation: 0
+    scale: 0.60,
+    rotation: 0.01,
+    offsetX: 0.05,
+    offsetY: -1.15,
+    offsetZ: 3.00
   },
   cheetah: {
-    scale: [0.64, 0.64, 0.64] as [number, number, number],
-    y: 2.98,
-    x: -0.62,
-    z: 0.47,
-    rotation: -1.33
+    scale: 0.85,
+    rotation: -1.33,
+    offsetX: -3.00,
+    offsetY: 1.10,
+    offsetZ: 0.00
   }
 };
 
-function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'antelope' | 'cheetah'; color: string; customMaterial: boolean }) {
+function AnimalProfile({ 
+  type, 
+  color, 
+  customMaterial,
+  scale,
+  rotation,
+  offsetX,
+  offsetY,
+  offsetZ
+}: { 
+  type: 'giraffe' | 'antelope' | 'cheetah'; 
+  color: string; 
+  customMaterial: boolean;
+  scale: number;
+  rotation: number;
+  offsetX: number;
+  offsetY: number;
+  offsetZ: number;
+}) {
   let modelPath = '/models/antelope.glb';
   if (type === 'cheetah') modelPath = '/models/cheetah.glb';
   if (type === 'giraffe') modelPath = '/models/jerapah.glb';
@@ -265,13 +288,24 @@ function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'ant
 
   // Play animation on load
   React.useEffect(() => {
+    if (clonedScene && clonedPlatform) {
+      const sceneBox = new THREE.Box3().setFromObject(clonedScene);
+      const sceneMin = sceneBox.min.toArray().map(v => Number(v.toFixed(3)));
+      const sceneMax = sceneBox.max.toArray().map(v => Number(v.toFixed(3)));
+      const platformBox = new THREE.Box3().setFromObject(clonedPlatform);
+      const platformMin = platformBox.min.toArray().map(v => Number(v.toFixed(3)));
+      const platformMax = platformBox.max.toArray().map(v => Number(v.toFixed(3)));
+      console.log(`[AnimalProfile: ${type}] Scene bounding box: min=${JSON.stringify(sceneMin)}, max=${JSON.stringify(sceneMax)}`);
+      console.log(`[AnimalProfile: ${type}] Platform bounding box: min=${JSON.stringify(platformMin)}, max=${JSON.stringify(platformMax)}`);
+    }
+
     if (names.length > 0) {
       const action = actions[names[0]];
       if (action) {
         action.reset().fadeIn(0.5).play();
       }
     }
-  }, [actions, names]);
+  }, [actions, names, clonedScene, clonedPlatform, type]);
 
   // Handle click to play/restart animation
   const handleClick = (e: any) => {
@@ -297,13 +331,6 @@ function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'ant
     };
   }, [hovered, names]);
 
-  const config = ANIMAL_PROFILE_CONFIGS[type];
-  const scale = config.scale;
-  const y = config.y;
-  const x = config.x !== undefined ? config.x : 1.5;
-  const z = config.z !== undefined ? config.z : 0;
-  const r = config.rotation !== undefined ? config.rotation : 0;
-
   return (
     <group ref={groupRef}>
       {/* Platform at Y = -0.98, wrapped in Center bottom */}
@@ -313,12 +340,12 @@ function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'ant
         </Center>
       </group>
       
-      {/* Animal placed on top of the platform base based on custom config */}
-      <group position={[x, y, z]} rotation={[0, r, 0]}>
+      {/* Animal centered horizontally and placed directly on top of the platform (Y = -0.58) + custom offsets */}
+      <group position={[1.5 + offsetX, -0.58 + offsetY, 0 + offsetZ]} rotation={[0, rotation, 0]}>
         <Center bottom>
           <primitive 
             object={clonedScene} 
-            scale={scale} 
+            scale={[scale, scale, scale]} 
             onClick={handleClick}
             onPointerOver={(e: any) => { e.stopPropagation(); setHovered(true); }}
             onPointerOut={(e: any) => { e.stopPropagation(); setHovered(false); }}
@@ -329,7 +356,19 @@ function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'ant
   );
 }
 
-export default function ThreeScene({ shape, color, customMaterial = false, selectedAnimal = null, onSelectAnimal = () => {}, onLoaded = () => {} }: SceneProps) {
+export default function ThreeScene({ 
+  shape, 
+  color, 
+  customMaterial = false, 
+  selectedAnimal = null, 
+  onSelectAnimal = () => {}, 
+  onLoaded = () => {},
+  animalScale,
+  animalRotation,
+  animalOffsetX,
+  animalOffsetY,
+  animalOffsetZ
+}: SceneProps) {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
 
@@ -360,6 +399,11 @@ export default function ThreeScene({ shape, color, customMaterial = false, selec
               type={selectedAnimal} 
               color={color} 
               customMaterial={customMaterial} 
+              scale={animalScale !== undefined ? animalScale : ANIMAL_PROFILE_CONFIGS[selectedAnimal].scale}
+              rotation={animalRotation !== undefined ? animalRotation : ANIMAL_PROFILE_CONFIGS[selectedAnimal].rotation}
+              offsetX={animalOffsetX !== undefined ? animalOffsetX : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetX}
+              offsetY={animalOffsetY !== undefined ? animalOffsetY : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetY}
+              offsetZ={animalOffsetZ !== undefined ? animalOffsetZ : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetZ}
             />
           ) : shape === 'zoo_terrain' ? (
             <ZooTerrain 

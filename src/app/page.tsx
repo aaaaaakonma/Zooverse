@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { ANIMAL_PROFILE_CONFIGS } from '@/components/ThreeScene';
 
 // Dynamically import the Three.js scene component with SSR disabled
 const ThreeScene = dynamic(() => import('@/components/ThreeScene'), {
@@ -89,6 +90,24 @@ export default function Home() {
   const [hasStarted, setHasStarted] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
 
+  // Model slider states
+  const [scale, setScale] = useState(1.0);
+  const [rotation, setRotation] = useState(0);
+  const [offsetX, setOffsetX] = useState(0);
+  const [offsetY, setOffsetY] = useState(0);
+  const [offsetZ, setOffsetZ] = useState(0);
+
+  React.useEffect(() => {
+    if (selectedAnimal) {
+      const config = ANIMAL_PROFILE_CONFIGS[selectedAnimal];
+      setScale(config.scale);
+      setRotation(config.rotation);
+      setOffsetX(config.offsetX);
+      setOffsetY(config.offsetY);
+      setOffsetZ(config.offsetZ);
+    }
+  }, [selectedAnimal]);
+
   const ANIMALS: Array<'giraffe' | 'antelope' | 'cheetah'> = ['giraffe', 'antelope', 'cheetah'];
 
   const handleNext = () => {
@@ -116,6 +135,11 @@ export default function Home() {
           selectedAnimal={selectedAnimal}
           onSelectAnimal={setSelectedAnimal}
           onLoaded={() => setIsLoaded(true)}
+          animalScale={scale}
+          animalRotation={rotation}
+          animalOffsetX={offsetX}
+          animalOffsetY={offsetY}
+          animalOffsetZ={offsetZ}
         />
       </main>
 
@@ -217,6 +241,105 @@ export default function Home() {
                   <span className="statValue">{value}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Model Adjustments Controls */}
+            <div className="modelControlsSection">
+              <h4 className="controlsTitle">Penyesuaian Model 3D</h4>
+              
+              <div className="controlGroup">
+                <div className="controlLabelRow">
+                  <span>Skala Absolut:</span>
+                  <span className="controlValue">{scale.toFixed(2)}x</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0.1" 
+                  max="4.0" 
+                  step="0.05" 
+                  value={scale} 
+                  onChange={(e) => setScale(parseFloat(e.target.value))}
+                  className="slider"
+                />
+              </div>
+
+              <div className="controlGroup">
+                <div className="controlLabelRow">
+                  <span>Rotasi Y (Rad):</span>
+                  <span className="controlValue">{rotation.toFixed(2)} rad</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="-3.14" 
+                  max="3.14" 
+                  step="0.05" 
+                  value={rotation} 
+                  onChange={(e) => setRotation(parseFloat(e.target.value))}
+                  className="slider"
+                />
+              </div>
+
+              <div className="controlGroup">
+                <div className="controlLabelRow">
+                  <span>Geser Kiri/Kanan (X):</span>
+                  <span className="controlValue">{offsetX.toFixed(2)}</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="-4.0" 
+                  max="4.0" 
+                  step="0.05" 
+                  value={offsetX} 
+                  onChange={(e) => setOffsetX(parseFloat(e.target.value))}
+                  className="slider"
+                />
+              </div>
+
+              <div className="controlGroup">
+                <div className="controlLabelRow">
+                  <span>Tinggi (Y Axis):</span>
+                  <span className="controlValue">{offsetY.toFixed(2)}</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="-3.0" 
+                  max="3.0" 
+                  step="0.05" 
+                  value={offsetY} 
+                  onChange={(e) => setOffsetY(parseFloat(e.target.value))}
+                  className="slider"
+                />
+              </div>
+
+              <div className="controlGroup">
+                <div className="controlLabelRow">
+                  <span>Maju/Mundur (Z):</span>
+                  <span className="controlValue">{offsetZ.toFixed(2)}</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="-4.0" 
+                  max="4.0" 
+                  step="0.05" 
+                  value={offsetZ} 
+                  onChange={(e) => setOffsetZ(parseFloat(e.target.value))}
+                  className="slider"
+                />
+              </div>
+
+              <button 
+                className="resetBtn"
+                onClick={() => {
+                  const defaultConfig = ANIMAL_PROFILE_CONFIGS[selectedAnimal];
+                  setScale(defaultConfig.scale);
+                  setRotation(defaultConfig.rotation);
+                  setOffsetX(defaultConfig.offsetX);
+                  setOffsetY(defaultConfig.offsetY);
+                  setOffsetZ(defaultConfig.offsetZ);
+                }}
+              >
+                Reset Posisi
+              </button>
             </div>
 
             <div className="funFactsSection">
