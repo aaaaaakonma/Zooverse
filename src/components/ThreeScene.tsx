@@ -13,6 +13,11 @@ interface SceneProps {
   selectedAnimal?: 'giraffe' | 'antelope' | 'cheetah' | null;
   onSelectAnimal?: (animal: 'giraffe' | 'antelope' | 'cheetah' | null) => void;
   onLoaded?: () => void;
+  animalScale?: number;
+  animalRotation?: number;
+  animalOffsetX?: number;
+  animalOffsetY?: number;
+  animalOffsetZ?: number;
 }
 
 function FloatingObject({ shape, color, onLoaded }: SceneProps) {
@@ -197,13 +202,25 @@ export const ANIMAL_PROFILE_CONFIGS = {
   }
 };
 
-function AnimalProfile({ type, color, customMaterial }: { type: 'giraffe' | 'antelope' | 'cheetah'; color: string; customMaterial: boolean }) {
-  const config = ANIMAL_PROFILE_CONFIGS[type];
-  const scale = config.scale;
-  const rotation = config.rotation;
-  const offsetX = config.offsetX;
-  const offsetY = config.offsetY;
-  const offsetZ = config.offsetZ;
+function AnimalProfile({ 
+  type, 
+  color, 
+  customMaterial,
+  scale,
+  rotation,
+  offsetX,
+  offsetY,
+  offsetZ
+}: { 
+  type: 'giraffe' | 'antelope' | 'cheetah'; 
+  color: string; 
+  customMaterial: boolean;
+  scale: number;
+  rotation: number;
+  offsetX: number;
+  offsetY: number;
+  offsetZ: number;
+}) {
   let modelPath = '/models/antelope.glb';
   if (type === 'cheetah') modelPath = '/models/cheetah.glb';
   if (type === 'giraffe') modelPath = '/models/jerapah.glb';
@@ -345,7 +362,12 @@ export default function ThreeScene({
   customMaterial = false, 
   selectedAnimal = null, 
   onSelectAnimal = () => {}, 
-  onLoaded = () => {}
+  onLoaded = () => {},
+  animalScale,
+  animalRotation,
+  animalOffsetX,
+  animalOffsetY,
+  animalOffsetZ
 }: SceneProps) {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -377,6 +399,11 @@ export default function ThreeScene({
               type={selectedAnimal} 
               color={color} 
               customMaterial={customMaterial} 
+              scale={animalScale !== undefined ? animalScale : ANIMAL_PROFILE_CONFIGS[selectedAnimal].scale}
+              rotation={animalRotation !== undefined ? animalRotation : ANIMAL_PROFILE_CONFIGS[selectedAnimal].rotation}
+              offsetX={animalOffsetX !== undefined ? animalOffsetX : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetX}
+              offsetY={animalOffsetY !== undefined ? animalOffsetY : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetY}
+              offsetZ={animalOffsetZ !== undefined ? animalOffsetZ : ANIMAL_PROFILE_CONFIGS[selectedAnimal].offsetZ}
             />
           ) : shape === 'zoo_terrain' ? (
             <ZooTerrain 
